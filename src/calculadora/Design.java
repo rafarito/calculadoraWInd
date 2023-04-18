@@ -1,5 +1,6 @@
 package calculadora;
 
+import javax.swing.JTextField;
 
 /** autores:
  *  arthur de oliveira
@@ -9,8 +10,8 @@ package calculadora;
 public class Design extends javax.swing.JFrame {
     boolean virgula = false,inteiro = true;
     String ope = "";
-    float fnum1 = 0, fnum2 = 0, percent = 0;
-    int inum1 = 0, inum2 = 0;
+    float fnum1 = 0, fnum2 = 0, percent = 0, aux = 0, m;
+    int inum1 = 0, inum2 = 0,tamanho = 0;
     public Design() {
         initComponents();
     }
@@ -74,7 +75,7 @@ public class Design extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("+/-");
+        jButton2.setText("±");
         jButton2.setActionCommand("mais ou menos");
         jButton2.setPreferredSize(new java.awt.Dimension(75, 23));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -259,8 +260,9 @@ public class Design extends javax.swing.JFrame {
             }
         });
 
-        jButton28.setText("<--");
+        jButton28.setIcon(new javax.swing.ImageIcon("C:\\Users\\Lab. de Software\\Downloads\\keynote-pt-pt-moddl.png")); // NOI18N
         jButton28.setActionCommand("backspace");
+        jButton28.setIconTextGap(2);
         jButton28.setPreferredSize(new java.awt.Dimension(75, 23));
         jButton28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,18 +271,48 @@ public class Design extends javax.swing.JFrame {
         });
 
         jButton29.setText("MC");
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton29ActionPerformed(evt);
+            }
+        });
 
         jButton30.setText("MR");
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton30ActionPerformed(evt);
+            }
+        });
 
         jButton31.setText("M+");
         jButton31.setActionCommand("Mmais");
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton31ActionPerformed(evt);
+            }
+        });
 
         jButton32.setText("M-");
         jButton32.setActionCommand("Mmenos");
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton32ActionPerformed(evt);
+            }
+        });
 
         jButton33.setText("MS");
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
 
         jButton34.setText("M v");
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton34ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -432,25 +464,57 @@ public class Design extends javax.swing.JFrame {
                     jTextField1.setText(Integer.toString(inum1*inum2));
                 break;
                 case "/":
-                    jTextField1.setText(Integer.toString(inum1/inum2));
+                    if(inum1%inum2 != 0){
+                        fnum1 = inum1;
+                        fnum2 = inum2;
+                        inum1 = 0;
+                        inum2 = 0;
+                        jTextField1.setText((Float.toString(fnum1/fnum2)).replaceAll("\\.", ","));
+                    }else{
+                        jTextField1.setText(Integer.toString(inum1/inum2));
+                    }
                 break;
             }
         }else{
             switch(ope){
                 case "+":
                     jTextField1.setText((Float.toString(fnum1+fnum2)).replaceAll("\\.", ","));
+                    tamanho = (jTextField1.getText()).length();
+                    virgula = true;
+                    if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+                        jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+                        virgula = false;
+                    }
                 break;
                 case "-":
                     jTextField1.setText((Float.toString(fnum1-fnum2)).replaceAll("\\.", ","));
+                    tamanho = (jTextField1.getText()).length();
+                    virgula = true;
+                    if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+                        jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+                        virgula = false;
+                    }
                 break;
                 case "*":
                     jTextField1.setText((Float.toString(fnum1*fnum2)).replaceAll("\\.", ","));
+                    tamanho = (jTextField1.getText()).length();
+                    virgula = true;
+                    if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+                        jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+                        virgula = false;
+                    }
                 break;
                 case "/":
                     jTextField1.setText((Float.toString(fnum1/fnum2)).replaceAll("\\.", ","));
+                    tamanho = (jTextField1.getText()).length();
+                    virgula = true;
+                    if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+                        jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+                        virgula = false;
+                    }
                 break;
             }
-            virgula = true;
+            
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -477,7 +541,15 @@ public class Design extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jTextField1.setText(jTextField1.getText() + jButton2.getText());
+               aux = Float.parseFloat((jTextField1.getText()).replaceAll(",", ".")); 
+               aux = aux*-1;
+               jTextField1.setText((Float.toString(aux)).replaceAll("\\.", ","));
+               tamanho = (jTextField1.getText()).length();
+                virgula = true;
+                if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+                    jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+                    virgula = false;
+                }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -580,7 +652,13 @@ public class Design extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        jTextField1.setText(jTextField1.getText() + jButton23.getText());
+        jTextField1.setText(Double.toString(Math.sqrt(Double.parseDouble((jTextField1.getText()).replaceAll(",", ".")))).replaceAll("\\.", ","));
+        tamanho = (jTextField1.getText()).length();
+        virgula = true;
+        if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+            jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+            virgula = false;
+        }
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
@@ -596,7 +674,12 @@ public class Design extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-        jTextField1.setText(jTextField1.getText() + jButton26.getText());
+        fnum2 = 0;
+        inum2 = 0;
+        virgula = false;
+        jTextField1.setText("");
+
+
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
@@ -612,12 +695,55 @@ public class Design extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
-        int tamanho = (jTextField1.getText()).length();
+        tamanho = (jTextField1.getText()).length();
         if((jTextField1.getText()).substring(tamanho-1).equals(",")){
             virgula = false;
         }
         jTextField1.setText((jTextField1.getText()).substring(0,tamanho - 1));
     }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        m = 0;
+    }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jTextField1.setText(Float.toString(m));
+        tamanho = (jTextField1.getText()).length();
+        virgula = true;
+        if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+            jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+            virgula = false;
+        }
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        jTextField1.setText(Float.toString(Float.parseFloat(jTextField1.getText().replaceAll(",", "."))+m));
+        tamanho = (jTextField1.getText()).length();
+        virgula = true;
+        if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+            jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+            virgula = false;
+        }
+    }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
+        jTextField1.setText(Float.toString(Float.parseFloat(jTextField1.getText().replaceAll(",", "."))-m));
+        tamanho = (jTextField1.getText()).length();
+        virgula = true;
+        if((jTextField1.getText()).substring(tamanho-1).equals("0")){
+            jTextField1.setText(jTextField1.getText().substring(0, tamanho-2));
+            virgula = false;
+        }
+    }//GEN-LAST:event_jButton32ActionPerformed
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+        m = Float.parseFloat((jTextField1.getText()).replaceAll(",", "."));
+        
+    }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton34ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
